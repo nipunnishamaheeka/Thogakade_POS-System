@@ -76,4 +76,28 @@ public class CustomerController extends HttpServlet {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (req.getContentType() == null || !req.getContentType().toLowerCase().startsWith("application/json")) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
+
+        try (var reader = req.getReader(); var writer = resp.getWriter()) {
+
+            Jsonb jsonb = JsonbBuilder.create();
+            CustomerDto customerDto = jsonb.fromJson(reader, CustomerDto.class);
+
+            if (customerBo.updateCustomer(customerDto)) {
+                resp.setStatus(HttpServletResponse.SC_CREATED);
+                writer.write("Customer Updated Successfully");
+            } else {
+                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                writer.write("Failed to update Customer");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }

@@ -49,6 +49,19 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
+    public boolean updateCustomer(Customer customer) throws SQLException {
+        connection = DbConnection.getInstance().getConnection();
+
+        pstm = connection.prepareStatement("UPDATE customer SET cust_name = ? , cust_address = ? , cust_salary = ? WHERE cust_id=?");
+        pstm.setString(1, customer.getName());
+        pstm.setString(2, customer.getAddress());
+        pstm.setDouble(3, customer.getSalary());
+        pstm.setInt(4, customer.getId());
+
+        return pstm.executeUpdate() > 0;
+    }
+
+    @Override
     public List<Customer> getAllCustomers() throws SQLException {
         connection = DbConnection.getInstance().getConnection();
 
