@@ -62,6 +62,16 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
+    public boolean deleteCustomer(int id) throws SQLException {
+        connection = DbConnection.getInstance().getConnection();
+
+        pstm = connection.prepareStatement("DELETE FROM customer WHERE cust_id=?");
+        pstm.setInt(1, id);
+
+        return pstm.executeUpdate() > 0;
+    }
+
+    @Override
     public List<Customer> getAllCustomers() throws SQLException {
         connection = DbConnection.getInstance().getConnection();
 

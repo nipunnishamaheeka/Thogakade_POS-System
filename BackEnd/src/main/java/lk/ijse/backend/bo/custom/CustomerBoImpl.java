@@ -49,6 +49,11 @@ public class CustomerBoImpl implements CustomerBo {
     }
 
     @Override
+    public boolean deleteCustomer(int id) throws SQLException {
+        return customerDao.deleteCustomer(id);
+    }
+
+    @Override
     public List<CustomerDto> getAllCustomers() throws SQLException {
         List<Customer> customerList = customerDao.getAllCustomers();
 
