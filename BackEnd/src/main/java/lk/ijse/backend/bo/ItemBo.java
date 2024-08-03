@@ -8,6 +8,7 @@ import java.util.List;
 public interface ItemBo {
     boolean addItem (ItemDto itemDto) throws SQLException;
     ItemDto searchItem(int id) throws SQLException;
+    boolean updateItem(ItemDto itemDto) throws SQLException;
 
     List<ItemDto> getAllItems() throws SQLException;
 }
