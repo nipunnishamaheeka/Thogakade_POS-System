@@ -1,74 +1,50 @@
 package lk.ijse.backend.controller;
 
-import java.io.*;
-import java.sql.Connection;
-import java.sql.SQLException;
-
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
-import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
-import lk.ijse.backend.DAO.CustomerDAOImpl;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lk.ijse.backend.bo.CustomerBo;
+import lk.ijse.backend.bo.custom.CustomerBoImpl;
 import lk.ijse.backend.dto.CustomerDto;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
+import java.io.IOException;
+import java.sql.SQLException;
 
-@WebServlet(urlPatterns = "/customer")
+@WebServlet( urlPatterns = "/customer" )
 public class CustomerController extends HttpServlet {
-    Connection connection;
 
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        try {
-            var initialContext =  new InitialContext();
-            DataSource pool = (DataSource) initialContext.lookup("java:comp/env/jdbc/thogakadepos");
-            this.connection = pool.getConnection();
-//            logger.debug("Connection initialized",this.connection);
-
-        }catch (SQLException | NamingException e){
-        throw new RuntimeException("DB connection not init",e);
-        }
-
-
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
-    }
+    CustomerBo customerBo = new CustomerBoImpl();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //Todo:save student
         if (req.getContentType() == null || !req.getContentType().toLowerCase().startsWith("application/json")) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            return;
         }
+        try ( var reader = req.getReader(); var writer = resp.getWriter()) {
 
-        try (var writer = resp.getWriter()){
             Jsonb jsonb = JsonbBuilder.create();
-            var customerDAOImpl = new CustomerDAOImpl();
-            CustomerDto student = jsonb.fromJson(req.getReader(), CustomerDto.class);
-//            student.setCust_id(Uti.idGenerate());
-            //Save data in the DB
-            writer.write(customerDAOImpl.saveCustomer(student,connection));
-            resp.setStatus(HttpServletResponse.SC_CREATED);
+            CustomerDto customerDto = jsonb.fromJson(reader, CustomerDto.class);
+
+            try {
+                if (customerBo.addCustomer(customerDto)){
+                    resp.setStatus(HttpServletResponse.SC_CREATED);
+                    writer.write("Customer Added Successfully");
+                }
+                else {
+                    resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                    writer.write("Failed to add Customer");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
         }catch (Exception e){
-            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             e.printStackTrace();
         }
-    }
-
-    @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPut(req, resp);
-    }
-
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doDelete(req, resp);
     }
 }
