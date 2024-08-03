@@ -11,6 +11,7 @@ import lk.ijse.backend.bo.ItemBo;
 import lk.ijse.backend.bo.custom.ItemBoImpl;
 import lk.ijse.backend.dto.ItemDto;
 
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -94,6 +95,25 @@ public class ItemController extends HttpServlet {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        }
+    }
+//TODO: Implement doDelete method
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        var id = req.getParameter("id");
+        var writer = resp.getWriter();
+
+        try{
+            if (itemBo.deleteItem(Integer.parseInt(id))){
+                resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
+                writer.write("Item Deleted Successfully");
+            }
+            else {
+                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                writer.write("Failed to delete Item");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

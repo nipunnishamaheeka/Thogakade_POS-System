@@ -67,6 +67,16 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
+    public boolean deleteItem(int id) throws SQLException {
+        connection = DbConnection.getInstance().getConnection();
+
+        pstm = connection.prepareStatement("DELETE FROM item WHERE item_id=?");
+        pstm.setInt(1, id);
+
+        return pstm.executeUpdate() > 0;
+    }
+
+    @Override
     public List<Item> getAllItems() throws SQLException {
         connection = DbConnection.getInstance().getConnection();
 

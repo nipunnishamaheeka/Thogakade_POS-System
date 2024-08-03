@@ -9,7 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dde9e038-a899-4851-9842-11aa87f7a244" name="Changes" comment="Added Get Item Details">
+    <list default="true" id="dde9e038-a899-4851-9842-11aa87f7a244" name="Changes" comment="Item Updated">
       <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/bo/ItemBo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/bo/ItemBo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/bo/custom/ItemBoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/bo/custom/ItemBoImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/controller/ItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/controller/ItemController.java" afterDir="false" />
@@ -173,7 +173,7 @@
       <option name="presentableId" value="Default" />
       <updated>1722670479423</updated>
       <workItem from="1722670480483" duration="1272000" />
-      <workItem from="1722671769753" duration="6989000" />
+      <workItem from="1722671769753" duration="8017000" />
     </task>
     <task id="LOCAL-00001" summary="Customer Save Updated and Fixing Bugs">
       <option name="closed" value="true" />
@@ -231,7 +231,15 @@
       <option name="project" value="LOCAL" />
       <updated>1722685442087</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Item Updated">
+      <option name="closed" value="true" />
+      <created>1722685935694</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1722685935694</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -244,6 +252,7 @@
     <MESSAGE value="Delete Customer" />
     <MESSAGE value="Item Save" />
     <MESSAGE value="Added Get Item Details" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Get Item Details" />
+    <MESSAGE value="Item Updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="Item Updated" />
   </component>
 </project>

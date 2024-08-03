@@ -10,5 +10,6 @@ public interface ItemBo {
     ItemDto searchItem(int id) throws SQLException;
     boolean updateItem(ItemDto itemDto) throws SQLException;
 
+    boolean deleteItem(int id) throws SQLException;
     List<ItemDto> getAllItems() throws SQLException;
 }
