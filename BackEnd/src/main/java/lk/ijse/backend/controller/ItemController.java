@@ -13,6 +13,7 @@ import lk.ijse.backend.dto.ItemDto;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet (urlPatterns = "/item")
 public class ItemController extends HttpServlet {
@@ -42,8 +43,30 @@ public class ItemController extends HttpServlet {
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        var id = req.getParameter("id");
+
+        if (id.equals("all")) {
+            try {
+                List<ItemDto> allItems = itemBo.getAllItems();
+                resp.setContentType("application/json");
+                Jsonb jsonb = JsonbBuilder.create();
+                jsonb.toJson(allItems, resp.getWriter());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            resp.setContentType("application/json");
+            Jsonb jsonb = JsonbBuilder.create();
+            try {
+                jsonb.toJson(itemBo.searchItem(Integer.parseInt(id)), resp.getWriter());
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
     }
