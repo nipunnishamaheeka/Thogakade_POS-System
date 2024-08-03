@@ -6,7 +6,10 @@ import lk.ijse.backend.entity.Customer;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomerDaoImpl implements CustomerDao {
     private Connection connection;
@@ -25,4 +28,46 @@ public class CustomerDaoImpl implements CustomerDao {
         return pstm.executeUpdate() > 0;
 
     }
+
+    @Override
+    public Customer searchCustomer(int id) throws SQLException {
+        connection = DbConnection.getInstance().getConnection();
+
+        pstm = connection.prepareStatement("SELECT * FROM customer WHERE cust_id=?");
+        pstm.setInt(1, id);
+
+        ResultSet resultSet = pstm.executeQuery();
+        if (resultSet.next()) {
+            return new Customer(
+                    resultSet.getInt(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getDouble(4)
+            );
+        }
+        return null;
+    }
+
+    @Override
+    public List<Customer> getAllCustomers() throws SQLException {
+        connection = DbConnection.getInstance().getConnection();
+
+        pstm = connection.prepareStatement("SELECT * FROM customer");
+        ResultSet resultSet = pstm.executeQuery();
+
+        List<Customer> customerList = new ArrayList<>();
+
+        while (resultSet.next()) {
+            customerList.add(new Customer(
+                    resultSet.getInt(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getDouble(4)
+            ));
+        }
+
+        return customerList;
+    }
+
 }
+

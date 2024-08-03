@@ -9,25 +9,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dde9e038-a899-4851-9842-11aa87f7a244" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/bo/CustomerBo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/bo/custom/CustomerBoImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/dao/CustomerDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/dao/custom/CustomerDaoImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/db/DbConnection.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/entity/Customer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/git_toolbox_prj.xml" beforeDir="false" />
+    <list default="true" id="dde9e038-a899-4851-9842-11aa87f7a244" name="Changes" comment="Customer Save Updated and Fixing Bugs">
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/BO/CustomerBO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/DAO/CustomerDAO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/DAO/CustomerDAOImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/bo/CustomerBo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/bo/CustomerBo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/bo/custom/CustomerBoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/bo/custom/CustomerBoImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/controller/CustomerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/dto/CustomerDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/dto/CustomerDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/META-INF/Context.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/META-INF/Context.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/dao/CustomerDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/dao/CustomerDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/dao/custom/CustomerDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/dao/custom/CustomerDaoImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -186,11 +174,32 @@
       <option name="presentableId" value="Default" />
       <updated>1722670479423</updated>
       <workItem from="1722670480483" duration="1272000" />
-      <workItem from="1722671769753" duration="690000" />
+      <workItem from="1722671769753" duration="1446000" />
     </task>
+    <task id="LOCAL-00001" summary="Customer Save Updated and Fixing Bugs">
+      <option name="closed" value="true" />
+      <created>1722672550780</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1722672550780</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Customer Save Updated and Fixing Bugs">
+      <option name="closed" value="true" />
+      <created>1722672606751</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1722672606751</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Customer Save Updated and Fixing Bugs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Customer Save Updated and Fixing Bugs" />
   </component>
 </project>
