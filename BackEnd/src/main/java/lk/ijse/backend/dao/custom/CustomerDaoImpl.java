@@ -20,7 +20,7 @@ public class CustomerDaoImpl implements CustomerDao {
         connection = DbConnection.getInstance().getConnection();
 
         pstm = connection.prepareStatement("INSERT INTO customer VALUES (?,?,?,?)");
-        pstm.setInt(1, customer.getId());
+        pstm.setString(1, customer.getId());
         pstm.setString(2, customer.getName());
         pstm.setString(3, customer.getAddress());
         pstm.setDouble(4, customer.getSalary());
@@ -34,12 +34,12 @@ public class CustomerDaoImpl implements CustomerDao {
         connection = DbConnection.getInstance().getConnection();
 
         pstm = connection.prepareStatement("SELECT * FROM customer WHERE cust_id=?");
-        pstm.setInt(1, id);
+
 
         ResultSet resultSet = pstm.executeQuery();
         if (resultSet.next()) {
             return new Customer(
-                    resultSet.getInt(1),
+                    resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
                     resultSet.getDouble(4)
@@ -56,7 +56,7 @@ public class CustomerDaoImpl implements CustomerDao {
         pstm.setString(1, customer.getName());
         pstm.setString(2, customer.getAddress());
         pstm.setDouble(3, customer.getSalary());
-        pstm.setInt(4, customer.getId());
+        pstm.setString(4, customer.getId());
 
         return pstm.executeUpdate() > 0;
     }
@@ -82,7 +82,7 @@ public class CustomerDaoImpl implements CustomerDao {
 
         while (resultSet.next()) {
             customerList.add(new Customer(
-                    resultSet.getInt(1),
+                    resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
                     resultSet.getDouble(4)

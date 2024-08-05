@@ -17,10 +17,10 @@ public class CustomerBoImpl implements CustomerBo {
         System.out.println("customerDto = " + customerDto);
         return customerDao.saveCustomer(
                 new Customer(
-                        customerDto.getId(),
-                        customerDto.getName(),
-                        customerDto.getAddress(),
-                        customerDto.getSalary()
+                        customerDto.getCustId(),
+                        customerDto.getCustName(),
+                        customerDto.getCustAddress(),
+                        customerDto.getCustSalary()
                 )
         );
     }
@@ -40,10 +40,10 @@ public class CustomerBoImpl implements CustomerBo {
     public boolean updateCustomer(CustomerDto customerDto) throws SQLException {
         return customerDao.updateCustomer(
                 new Customer(
-                        customerDto.getId(),
-                        customerDto.getName(),
-                        customerDto.getAddress(),
-                        customerDto.getSalary()
+                        customerDto.getCustId(),
+                        customerDto.getCustName(),
+                        customerDto.getCustAddress(),
+                        customerDto.getCustSalary()
                 )
         );
     }
