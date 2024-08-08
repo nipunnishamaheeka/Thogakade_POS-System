@@ -13,3 +13,5 @@ public class CustomerDto {
     private String custAddress;
     private double custSalary;
 }
+
+

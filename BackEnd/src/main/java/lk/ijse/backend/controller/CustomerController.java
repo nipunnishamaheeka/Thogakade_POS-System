@@ -12,6 +12,7 @@ import lk.ijse.backend.bo.custom.CustomerBoImpl;
 import lk.ijse.backend.dto.CustomerDto;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -51,29 +52,14 @@ public class CustomerController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try{
 
-            if (req.getParameter("id").equals("all")){
-                List<CustomerDto> allCustomers = customerBo.getAllCustomers();
-                if (allCustomers != null){
-                    resp.setContentType("application/json");
-                    Jsonb jsonb = JsonbBuilder.create();
-                    jsonb.toJson(allCustomers, resp.getWriter());
-                }
-                return;
-            }
+        try(PrintWriter writer = resp.getWriter()) {
+            Jsonb jsonb = JsonbBuilder.create();
+            resp.setContentType("application/json");
+            jsonb.toJson(customerBo.getAllCustomers(), writer);
 
-
-            int id = Integer.parseInt(req.getParameter("id"));
-            CustomerDto customerDto = customerBo.searchCustomer(id);
-            if (customerDto != null){
-                resp.setContentType("application/json");
-                Jsonb jsonb = JsonbBuilder.create();
-                jsonb.toJson(customerDto, resp.getWriter());
-            }
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        }catch (SQLException e){
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -103,17 +89,41 @@ public class CustomerController extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        try {
+//            int id = Integer.parseInt(req.getParameter("id"));
+//            if (customerBo.deleteCustomer(id)){
+//                resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
+//                resp.getWriter().write("Customer Deleted Successfully");
+//            }else {
+//                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//                resp.getWriter().write("Failed to delete Customer");
+//            }
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+
+
+
         try {
-            int id = Integer.parseInt(req.getParameter("id"));
-            if (customerBo.deleteCustomer(id)){
+            // Extract customer ID from URL path
+            String path = req.getPathInfo();
+            String[] pathParts = path.split("/");
+            if (pathParts.length < 2) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
+            int customerId = Integer.parseInt(pathParts[1]); // Assuming customerId is an integer
+
+            if (customerBo.deleteCustomer(customerId)) {
                 resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
                 resp.getWriter().write("Customer Deleted Successfully");
-            }else {
+            } else {
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 resp.getWriter().write("Failed to delete Customer");
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 }

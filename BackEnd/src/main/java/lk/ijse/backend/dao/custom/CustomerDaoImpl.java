@@ -14,6 +14,7 @@ import java.util.List;
 public class CustomerDaoImpl implements CustomerDao {
     private Connection connection;
     PreparedStatement pstm;
+
     @Override
     public boolean saveCustomer(Customer customer) throws SQLException {
         System.out.println("customer = " + customer);
