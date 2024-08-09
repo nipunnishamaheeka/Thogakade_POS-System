@@ -93,28 +93,29 @@ export async function updateCustomer(index, customer) {
   }
 }
 
-// export async function deleteCustomer(custId) {
-//   try {
-//     const response = await fetch(
-//       `http://localhost:8080/app/customer/${custId}`,
-//       {
-//         method: "DELETE",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//       }
-//     );
+export async function deleteCustomer(custId) {
+  try {
+    const response = await fetch(
+      `http://localhost:8080/app/customer/${custId}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-//     if (!response.ok) {
-//       throw new Error(`HTTP error! Status: ${response.status}`);
-//     }
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
 
-//     // Optionally handle the response if needed
-//     const result = await response.text(); // or response.json() if the server responds with JSON
-//     console.log("Customer Deleted");
-//     return result; // Return the result if needed
-//   } catch (error) {
-//     console.error("Error deleting customer:", error);
-//     throw error; // Rethrow the error to handle it in the calling code
-//   }
-// }
+    console.log("Customer Deleted");
+    return await response.text();
+  } catch (error) {
+    console.error("Error deleting customer:", error);
+    throw error;
+  }
+}
+
+
+
