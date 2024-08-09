@@ -59,3 +59,14 @@ The Togakade POS System is an online Point of Sale (POS) application designed to
 
 **Build and Run:** Deploy the WAR file to Tomcat and launch the application.
 
+**API Documentation**
+
+For detailed API endpoints and usage instructions, please refer to the [Postman Documentation](https://documenter.getpostman.com/view/35385181/2sA3s3GW2o).
+
+**License**
+
+**License**
+
+This project is licensed under the MIT License. For more details, please refer to the [LICENSE file](https://github.com/nipunnishamaheeka/Thogakade_POS-System/blob/main/LICENSE).
+
+
