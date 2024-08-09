@@ -5,7 +5,7 @@ import lk.ijse.backend.dto.ItemDto;
 import java.sql.SQLException;
 import java.util.List;
 
-public interface ItemBo {
+public interface ItemBo extends SuperBo {
     boolean addItem (ItemDto itemDto) throws SQLException;
     ItemDto searchItem(String id) throws SQLException;
     boolean updateItem(ItemDto itemDto) throws SQLException;

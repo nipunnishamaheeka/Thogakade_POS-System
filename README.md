@@ -1,1 +1,0 @@
-# Thogakade_POS-System

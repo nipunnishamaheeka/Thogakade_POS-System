@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-public interface CustomerBo {
+public interface CustomerBo extends SuperBo {
     boolean addCustomer(CustomerDto customerDto) throws IOException, SQLException;
     CustomerDto searchCustomer(String id) throws IOException, SQLException;
 
