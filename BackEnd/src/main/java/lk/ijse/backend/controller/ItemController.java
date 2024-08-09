@@ -7,9 +7,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lk.ijse.backend.bo.BOFactory;
 import lk.ijse.backend.bo.ItemBo;
 import lk.ijse.backend.bo.custom.ItemBoImpl;
 import lk.ijse.backend.dto.ItemDto;
+import org.slf4j.Logger;
 
 
 import java.io.IOException;
@@ -19,14 +21,16 @@ import java.util.List;
 
 @WebServlet (urlPatterns = "/item")
 public class ItemController extends HttpServlet {
+    static Logger logger = org.slf4j.LoggerFactory.getLogger(ItemController.class);
 
-    ItemBo itemBo = new ItemBoImpl();
+    ItemBo itemBo = (ItemBo) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.ITEM);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         if (req.getContentType() == null || !req.getContentType().toLowerCase().startsWith("application/json")) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            logger.error("Invalid Content Type");
             System.out.println("req.getContentType() = " + req.getContentType());
             return;
         }
@@ -39,10 +43,12 @@ public class ItemController extends HttpServlet {
                 if (itemBo.addItem(itemDto)){
                     resp.setStatus(HttpServletResponse.SC_CREATED);
                     writer.write("Item Added Successfully");
+                    logger.info("Item Added Successfully");
                 }
                 else {
                     resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                     writer.write("Failed to add Item");
+                    logger.error("Failed to add Item");
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -87,6 +93,7 @@ public class ItemController extends HttpServlet {
         System.out.println("doPut");
         if (req.getContentType() == null || !req.getContentType().toLowerCase().startsWith("application/json")) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            logger.error("Invalid Content Type");
             return;
         }
 
@@ -101,13 +108,16 @@ public class ItemController extends HttpServlet {
                     System.out.println("itemDto = " + itemDto);
                     resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
                     writer.write("Item Updated Successfully");
+                    logger.info("Item Updated Successfully");
                 }
                 else {
                     resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                     writer.write("Failed to update Item");
+                    logger.error("Failed to update Item");
                 }
             } catch (Exception e) {
                 System.out.println("e = " + e);
+                logger.error("Failed to update Item");
                 e.printStackTrace();
 
             }
@@ -123,12 +133,14 @@ public class ItemController extends HttpServlet {
             if (itemBo.deleteItem(id)){
                 resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
                 writer.write("Item Deleted Successfully");
+                logger.info("Item Deleted Successfully");
             }
             else {
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 writer.write("Failed to delete Item");
             }
         } catch (SQLException e) {
+            logger.error("Failed to delete Item");
             e.printStackTrace();
         }
     }

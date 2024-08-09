@@ -7,9 +7,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lk.ijse.backend.bo.BOFactory;
 import lk.ijse.backend.bo.CustomerBo;
 import lk.ijse.backend.bo.custom.CustomerBoImpl;
 import lk.ijse.backend.dto.CustomerDto;
+import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,13 +20,14 @@ import java.util.List;
 
 @WebServlet( urlPatterns = "/customer" )
 public class CustomerController extends HttpServlet {
-
-    CustomerBo customerBo = new CustomerBoImpl();
+    static Logger logger = org.slf4j.LoggerFactory.getLogger(CustomerController.class);
+    CustomerBo customerBo = (CustomerBo) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.CUSTOMER);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getContentType() == null || !req.getContentType().toLowerCase().startsWith("application/json")) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            logger.error("Invalid Content Type");
             return;
         }
         try ( var reader = req.getReader(); var writer = resp.getWriter()) {
@@ -36,10 +39,12 @@ public class CustomerController extends HttpServlet {
                 if (customerBo.addCustomer(customerDto)){
                     resp.setStatus(HttpServletResponse.SC_CREATED);
                     writer.write("Customer Added Successfully");
+                    logger.info("Customer Added Successfully");
                 }
                 else {
                     resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                     writer.write("Failed to add Customer");
+                    logger.error("Failed to add Customer");
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -67,6 +72,7 @@ public class CustomerController extends HttpServlet {
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getContentType() == null || !req.getContentType().toLowerCase().startsWith("application/json")) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            logger.error("Invalid Content Type");
             return;
         }
 
@@ -78,11 +84,14 @@ public class CustomerController extends HttpServlet {
             if (customerBo.updateCustomer(customerDto)) {
                 resp.setStatus(HttpServletResponse.SC_CREATED);
                 writer.write("Customer Updated Successfully");
+                logger.info("Customer Updated Successfully");
             } else {
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 writer.write("Failed to update Customer");
+                logger.error("Failed to update Customer");
             }
         }catch (Exception e){
+            logger.error("Failed to update Customer");
             e.printStackTrace();
         }
     }
@@ -115,18 +124,18 @@ protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws
         if (customerBo.deleteCustomer(id)){
             resp.setStatus(HttpServletResponse.SC_CREATED);
             resp.getWriter().write("Customer Deleted Successfully");
-//            logger.info("Customer Deleted Successfully");
+            logger.info("Customer Deleted Successfully");
         }
         else {
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             resp.getWriter().write("Failed to delete Customer");
-//            logger.error("Failed to delete Customer");
+            logger.error("Failed to delete Customer");
         }
     } catch (Exception e) {
-//        logger.error("Failed to delete Customer");
+        logger.error("Failed to delete Customer");
         e.printStackTrace();
     }
 
-}
+    }
 
 }

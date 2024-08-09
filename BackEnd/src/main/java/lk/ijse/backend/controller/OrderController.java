@@ -35,6 +35,7 @@ public class OrderController extends HttpServlet {
             Jsonb jsonb = JsonbBuilder.create();
             OrderDto orderDTO = jsonb.fromJson(req.getReader(), OrderDto.class);
             System.out.println(orderDTO + "in order controller");
+            orderBO.saveOrder(orderDTO);
             writer.write("Order Added Successfully");
             resp.setStatus(HttpServletResponse.SC_CREATED);
             logger.info("Order Added Successfully");
