@@ -245,6 +245,34 @@ form div input ,select{
       
 }
 
+.carousel {
+    position: relative;
+    width: 288%;
+    height: 100%;
+    /* Allow height to adjust automatically */
+    max-height: 930px;
+    /* Set a maximum height if needed */
+    overflow: hidden;
+}
+
+.carousel-inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.carousel-item {
+    flex: 1;
+}
+
+.carousel-item img {
+    width: 100%;
+    height: auto;
+    /* Adjust height to maintain aspect ratio */
+    object-fit: cover;
+    /* Ensure the image covers the container */
+}
+
 #CustomerManage table , #ItemManage table{
     margin-left: 50px;
 }
