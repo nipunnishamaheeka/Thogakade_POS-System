@@ -26,7 +26,7 @@ public class CustomerBoImpl implements CustomerBo {
     }
 
     @Override
-    public CustomerDto searchCustomer(int id) throws IOException, SQLException {
+    public CustomerDto searchCustomer(String id) throws IOException, SQLException {
         Customer customer = customerDao.searchCustomer(id);
         if (customer != null) {
            // System.out.println(customer+"=============================== bo");
@@ -49,7 +49,7 @@ public class CustomerBoImpl implements CustomerBo {
     }
 
     @Override
-    public boolean deleteCustomer(int id) throws SQLException {
+    public boolean deleteCustomer(String id) throws SQLException {
         return customerDao.deleteCustomer(id);
     }
 

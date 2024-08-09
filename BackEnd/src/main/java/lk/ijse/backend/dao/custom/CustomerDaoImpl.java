@@ -31,11 +31,11 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
-    public Customer searchCustomer(int id) throws SQLException {
+    public Customer searchCustomer(String id) throws SQLException {
         connection = DbConnection.getInstance().getConnection();
 
         pstm = connection.prepareStatement("SELECT * FROM customer WHERE cust_id=?");
-
+        pstm.setString(1, id);
 
         ResultSet resultSet = pstm.executeQuery();
         if (resultSet.next()) {
@@ -63,11 +63,11 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
-    public boolean deleteCustomer(int id) throws SQLException {
+    public boolean deleteCustomer(String id) throws SQLException {
         connection = DbConnection.getInstance().getConnection();
 
         pstm = connection.prepareStatement("DELETE FROM customer WHERE cust_id=?");
-        pstm.setInt(1, id);
+        pstm.setString(1, id);
 
         return pstm.executeUpdate() > 0;
     }

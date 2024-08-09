@@ -17,33 +17,39 @@ public class ItemDaoImpl implements ItemDao {
     PreparedStatement pstm;
     @Override
     public boolean addItem(Item item) throws SQLException {
+        System.out.println("item = " + item);
        connection = DbConnection.getInstance().getConnection();
 
        pstm = connection.prepareStatement("INSERT INTO item VALUES (?,?,?,?)");
-      pstm.setInt(1,item.getId());
+      pstm.setString(1,item.getId());
         pstm.setString(2,item.getName());
-        pstm.setInt(3,item.getQty());
+        pstm.setString(3,item.getQty());
         pstm.setDouble(4,item.getPrice());
 
         return pstm.executeUpdate() > 0;
 
-
+//        return SQLUtil.execute("INSERT INTO item VALUES (?,?,?,?)",
+//                item.getId(),
+//                item.getName(),
+//                item.getQty(),
+//                item.getPrice()
+//        );
 
     }
 
     @Override
-    public ItemDto searchItem(int id) throws SQLException {
+    public ItemDto searchItem(String  id) throws SQLException {
         connection = DbConnection.getInstance().getConnection();
 
         pstm = connection.prepareStatement("SELECT * FROM item WHERE item_id=?");
-        pstm.setInt(1, id);
+        pstm.setString(1, id);
         ResultSet resultSet = pstm.executeQuery();
 
         if (resultSet.next()) {
             return new ItemDto(
-                    resultSet.getInt(1),
+                    resultSet.getString(1),
                     resultSet.getString(2),
-                    resultSet.getInt(3),
+                    resultSet.getString(3),
                     resultSet.getDouble(4)
             );
         }
@@ -54,24 +60,38 @@ public class ItemDaoImpl implements ItemDao {
 
     @Override
     public boolean updateItem(Item item) throws SQLException {
-        connection = DbConnection.getInstance().getConnection();
+       try{
+           System.out.println("DAOItem = " + item);
+           connection = DbConnection.getInstance().getConnection();
 
-        pstm = connection.prepareStatement("UPDATE item SET item_name = ? , qty = ? , item_price = ? WHERE item_id=?");
-        pstm.setString(1, item.getName());
-        pstm.setInt(2, item.getQty());
-        pstm.setDouble(3, item.getPrice());
-        pstm.setInt(4, item.getId());
+           System.out.println("connection = " + connection);
+           pstm = connection.prepareStatement("UPDATE item SET item_name = ? , qty = ? , item_price = ? WHERE item_id=?");
 
-        return pstm.executeUpdate() > 0;
+           pstm.setString(1, item.getName());
+           pstm.setString(2, item.getQty());
+           pstm.setDouble(3, item.getPrice());
+           pstm.setString(4, item.getId());
+           System.out.println(pstm);
 
+           try{
+               return pstm.executeUpdate() > 0;
+           } catch (Exception e) {
+               throw new RuntimeException(e);
+           }
+
+
+       } catch (SQLException e) {
+          e.printStackTrace();
+              return false;
+       }
     }
 
     @Override
-    public boolean deleteItem(int id) throws SQLException {
+    public boolean deleteItem(String id) throws SQLException {
         connection = DbConnection.getInstance().getConnection();
 
         pstm = connection.prepareStatement("DELETE FROM item WHERE item_id=?");
-        pstm.setInt(1, id);
+        pstm.setString(1, id);
 
         return pstm.executeUpdate() > 0;
     }
@@ -87,9 +107,9 @@ public class ItemDaoImpl implements ItemDao {
 
         while (resultSet.next()) {
             itemList.add(new Item(
-                    resultSet.getInt(1),
+                    resultSet.getString(1),
                     resultSet.getString(2),
-                    resultSet.getInt(3),
+                    resultSet.getString(3),
                     resultSet.getDouble(4)
             ));
         }

@@ -13,6 +13,7 @@ import lk.ijse.backend.dto.ItemDto;
 
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -26,13 +27,14 @@ public class ItemController extends HttpServlet {
 
         if (req.getContentType() == null || !req.getContentType().toLowerCase().startsWith("application/json")) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            System.out.println("req.getContentType() = " + req.getContentType());
             return;
         }
 
         try ( var reader = req.getReader(); var writer = resp.getWriter()) {
             Jsonb jsonb = JsonbBuilder.create();
             ItemDto itemDto = jsonb.fromJson(reader, ItemDto.class);
-
+            System.out.println("itemDto = " + itemDto);
             try{
                 if (itemBo.addItem(itemDto)){
                     resp.setStatus(HttpServletResponse.SC_CREATED);
@@ -50,41 +52,53 @@ public class ItemController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        var id = req.getParameter("id");
-
-        if (id.equals("all")) {
-            try {
-                List<ItemDto> allItems = itemBo.getAllItems();
-                resp.setContentType("application/json");
-                Jsonb jsonb = JsonbBuilder.create();
-                jsonb.toJson(allItems, resp.getWriter());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } else {
-            resp.setContentType("application/json");
+//        var id = req.getParameter("id");
+//
+//        if (id.equals("all")) {
+//            try {
+//                List<ItemDto> allItems = itemBo.getAllItems();
+//                resp.setContentType("application/json");
+//                Jsonb jsonb = JsonbBuilder.create();
+//                jsonb.toJson(allItems, resp.getWriter());
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        } else {
+//            resp.setContentType("application/json");
+//            Jsonb jsonb = JsonbBuilder.create();
+//            try {
+//                jsonb.toJson(itemBo.searchItem(id), resp.getWriter());
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        }
+        try(PrintWriter writer = resp.getWriter()) {
             Jsonb jsonb = JsonbBuilder.create();
-            try {
-                jsonb.toJson(itemBo.searchItem(Integer.parseInt(id)), resp.getWriter());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            resp.setContentType("application/json");
+            jsonb.toJson(itemBo.getAllItems(), writer);
+
+        }catch (SQLException e){
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("doPut");
         if (req.getContentType() == null || !req.getContentType().toLowerCase().startsWith("application/json")) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
 
         try ( var reader = req.getReader(); var writer = resp.getWriter()) {
+            System.out.println("Awa Badu");
             Jsonb jsonb = JsonbBuilder.create();
-            ItemDto itemDto = jsonb.fromJson(reader, ItemDto.class);
 
+            ItemDto itemDto = jsonb.fromJson(reader, ItemDto.class);
+            System.out.println("itemDto = " + itemDto);
             try {
                 if (itemBo.updateItem(itemDto)){
+                    System.out.println("itemDto = " + itemDto);
                     resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
                     writer.write("Item Updated Successfully");
                 }
@@ -92,8 +106,10 @@ public class ItemController extends HttpServlet {
                     resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                     writer.write("Failed to update Item");
                 }
-            } catch (SQLException e) {
+            } catch (Exception e) {
+                System.out.println("e = " + e);
                 e.printStackTrace();
+
             }
         }
     }
@@ -104,7 +120,7 @@ public class ItemController extends HttpServlet {
         var writer = resp.getWriter();
 
         try{
-            if (itemBo.deleteItem(Integer.parseInt(id))){
+            if (itemBo.deleteItem(id)){
                 resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
                 writer.write("Item Deleted Successfully");
             }

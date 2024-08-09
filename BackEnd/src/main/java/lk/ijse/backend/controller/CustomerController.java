@@ -87,43 +87,46 @@ public class CustomerController extends HttpServlet {
         }
     }
 
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//    @Override
+//    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        System.out.println("Delete");
+//        String id = req.getParameter("id");
 //        try {
-//            int id = Integer.parseInt(req.getParameter("id"));
-//            if (customerBo.deleteCustomer(id)){
+//
+//            if (customerBo.deleteCustomer(id)) {
 //                resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
 //                resp.getWriter().write("Customer Deleted Successfully");
-//            }else {
+//            } else {
 //                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 //                resp.getWriter().write("Failed to delete Customer");
 //            }
 //        } catch (Exception e) {
 //            throw new RuntimeException(e);
 //        }
+//
+//
+//    }
+@Override
+protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+    String id = req.getParameter("id");
 
-
-        try {
-            // Extract customer ID from URL path
-            String path = req.getPathInfo();
-            String[] pathParts = path.split("/");
-            if (pathParts.length < 2) {
-                resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
-                return;
-            }
-            int customerId = Integer.parseInt(pathParts[1]); // Assuming customerId is an integer
-
-            if (customerBo.deleteCustomer(customerId)) {
-                resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
-                resp.getWriter().write("Customer Deleted Successfully");
-            } else {
-                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                resp.getWriter().write("Failed to delete Customer");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+    try {
+        if (customerBo.deleteCustomer(id)){
+            resp.setStatus(HttpServletResponse.SC_CREATED);
+            resp.getWriter().write("Customer Deleted Successfully");
+//            logger.info("Customer Deleted Successfully");
         }
+        else {
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            resp.getWriter().write("Failed to delete Customer");
+//            logger.error("Failed to delete Customer");
+        }
+    } catch (Exception e) {
+//        logger.error("Failed to delete Customer");
+        e.printStackTrace();
     }
+
+}
+
 }

@@ -10,9 +10,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dde9e038-a899-4851-9842-11aa87f7a244" name="Changes" comment="Updated Project">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/util/SQLUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/87863031-1d4d-4667-833a-0ae67a8dcc99.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/87863031-1d4d-4667-833a-0ae67a8dcc99.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/filter/CORSFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/filter/CORSFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/bo/CustomerBo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/bo/CustomerBo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/bo/ItemBo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/bo/ItemBo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/bo/custom/CustomerBoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/bo/custom/CustomerBoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/bo/custom/ItemBoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/bo/custom/ItemBoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/controller/CustomerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/controller/ItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/controller/ItemController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/dao/CustomerDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/dao/CustomerDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/dao/ItemDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/dao/ItemDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/dao/custom/CustomerDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/dao/custom/CustomerDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/dao/custom/ItemDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/dao/custom/ItemDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/dto/ItemDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/dto/ItemDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/entity/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/backend/entity/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontEnd/Controller/ItemController.js" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontEnd/Controller/ItemController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontEnd/model/ItemModel.js" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontEnd/model/ItemModel.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -201,7 +215,7 @@
       <workItem from="1722831137730" duration="326000" />
       <workItem from="1722835234743" duration="22474000" />
       <workItem from="1723094551046" duration="13520000" />
-      <workItem from="1723170887231" duration="2288000" />
+      <workItem from="1723170887231" duration="17087000" />
     </task>
     <task id="LOCAL-00001" summary="Customer Save Updated and Fixing Bugs">
       <option name="closed" value="true" />
