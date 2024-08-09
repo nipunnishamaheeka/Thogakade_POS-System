@@ -15,11 +15,19 @@ $(".orderManageBtn").click(function () {
   refresh();
 });
 
-function refresh() {
-  $("#OrderManage .orderId").val(generateId());
+async function refresh() {
+  generateId();
   $("#OrderManage .orderDate").val(new Date().toISOString().split("T")[0]);
   loadCustomer();
   loadItems();
+  $("#OrderManage .Total").text("");
+  // $('#OrderManage .SubTotal').text("");
+  // $('#OrderManage .SubTotal').text("");
+  $("#OrderManage .Balance").val("");
+  $("#OrderManage .Cash").val("");
+  $("#OrderManage .Discount").val("");
+  const allOrder = await getAllOrders();
+  $(".counts .orders h2").text(allOrder.length);
 }
 
 function extractNumber(id) {
@@ -30,28 +38,32 @@ function extractNumber(id) {
   return null;
 }
 
-function generateId() {
-  let orders = getAllOrders();
-
-  //alert(orders.length);
-
+async function generateId() {
+  let orders = await getAllOrders();
+  // alert(orders.length);
+  let id;
   if (orders.length === 0) {
-    return "OD01";
+    id = "OD01";
   } else {
-    // alert("Ok");
-    let orderId = orders[orders.length - 1].orderId;
-    let number = extractNumber(orderId);
-    number++;
-    alert("Get On OD0" + number);
-    return "OD0" + number;
+    // alert('awa');
+    let orderId = orders[orders.length - 1].id;
+    // let number = extractNumber(orderId);
+    var match = orderId.match(/OD(\d+)/);
+
+    if (match && match.length > 1) {
+      let number = match[1];
+      number++;
+      id = "OD0" + number;
+    }
   }
+  $("#OrderManage .orderId").val(id);
 }
 
-function loadCustomer() {
+async function loadCustomer() {
   let cmb = $("#OrderManage .customers");
   cmb.empty();
   let option = [];
-  let customers = getAllCustomers();
+  let customers = await getAllCustomers();
   option.unshift("");
   for (let i = 0; i < customers.length; i++) {
     option.push(customers[i].custId);
@@ -62,22 +74,24 @@ function loadCustomer() {
   });
 }
 
-$("#OrderManage .customers").change(function () {
-  let customer = getAllCustomers().find((c) => c.custId === $(this).val());
+$("#OrderManage .customers").change(async function () {
+  const customers = await getAllCustomers();
+  const customerId = $(this).val();
+  const customer = customers.find((c) => c.custId === customerId);
   $("#OrderManage .custId").val(customer.custId);
   $("#OrderManage .custName").val(customer.custName);
   $("#OrderManage .custAddress").val(customer.custAddress);
   $("#OrderManage .custSalary").val(customer.custSalary);
 });
 
-function loadItems() {
+async function loadItems() {
   let cmb = $("#OrderManage .itemCmb");
   cmb.empty();
   let option = [];
-  let items = getAllItems();
+  let items = await getAllItems();
 
   for (let i = 0; i < items.length; i++) {
-    option.push(items[i].itemId);
+    option.push(items[i].id);
   }
 
   option.unshift("");
@@ -87,15 +101,21 @@ function loadItems() {
   });
 }
 
-$("#OrderManage .itemCmb").change(function () {
-  let item = getAllItems().find((i) => i.itemId === $(this).val());
-  itemId = item.itemId;
-  itemQty = item.itemQty;
+$("#OrderManage .itemCmb").change(async function () {
+  const items = await getAllItems();
+  console.log(items);
+  const getItemId = $(this).val();
+  const item = items.find((c) => c.id === getItemId);
+  console.log(item);
+   itemId = item.id;
+
+  // alert(item.itemQty);
+   itemQty = item.qty;
   $("#OrderManage .addBtn").text("Add");
-  $("#OrderManage .itemCode").val(item.itemId);
-  $("#OrderManage .itemName").val(item.itemName);
-  $("#OrderManage .itemQty").val(item.itemQty);
-  $("#OrderManage .itemPrice").val(item.itemPrice);
+  $("#OrderManage .itemCode").val(item.id);
+  $("#OrderManage .itemName").val(item.name);
+  $("#OrderManage .itemQty").val(item.qty);
+  $("#OrderManage .itemPrice").val(item.price);
 });
 
 let getItems = [];
@@ -207,7 +227,7 @@ $("#OrderManage .placeOrder").click(function () {
   let total = parseFloat($("#OrderManage .Total").text());
   let discount = parseFloat($("#OrderManage .Discount").val());
 
-  alert(cash + " " + total + " " + discount);
+  // alert(cash + ' ' + total + ' ' + discount);
 
   if (cash >= total) {
     if (discount >= 0 && discount <= 100) {
@@ -230,10 +250,10 @@ $("#OrderManage .placeOrder").click(function () {
 
       saveOrder(Order);
       updateItemData();
-
       getItems = [];
       loadTable();
       clear(2);
+      alert("Order Placed");
       refresh();
     } else {
       alert("Invalid Discount");
@@ -243,13 +263,19 @@ $("#OrderManage .placeOrder").click(function () {
   }
 });
 
-function updateItemData() {
-  let items = getAllItems();
+async function updateItemData() {
+  let items = await getAllItems();
   for (let i = 0; i < getItems.length; i++) {
     let item = items.find((I) => I.itemId === getItems[i].itemCode);
     item.itemQty -= getItems[i].itemQty;
     let index = items.findIndex((I) => I.itemId === getItems[i].itemCode);
-    updateItem(index, item);
+    let sendItem = {
+      itemId: item.itemId,
+      itemName: item.itemName,
+      itemQty: item.itemQty,
+      itemPrice: item.itemPrice,
+    };
+    updateItem(index, sendItem);
   }
 }
 
@@ -265,6 +291,7 @@ $(".mainTable .tableRows").on("click", "div", function () {
   $("#OrderManage .orderQty").val(qty);
 
   $("#OrderManage .ItemSelect .addBtn").text("delete");
+  $("#OrderManage .ItemSelect .addBtn").css("background-color", "red");
 });
 
 function dropItem() {
@@ -272,6 +299,7 @@ function dropItem() {
   let item = getItems.find((I) => I.itemCode === itemCode);
   let index = getItems.findIndex((I) => I.itemCode === itemCode);
   getItems.splice(index, 1);
+  alert("Item Removed");
   loadTable();
   clear(1);
   setTotal();
