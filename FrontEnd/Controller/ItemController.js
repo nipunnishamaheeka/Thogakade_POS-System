@@ -33,11 +33,12 @@ $("#ItemManage .saveBtn").click(function () {
 
   if (validate(item)) {
     saveItem(item);
+    alert("Item Saved");
     refresh();
   }
 });
 
-function validate(item) {
+async function validate(item) {
   let valid = true;
 
   if (/^I0[0-9]+$/.test(item.itemId)) {
@@ -79,7 +80,7 @@ function validate(item) {
     valid = false;
   }
 
-  let items = getAllItems();
+  let items = await getAllItems();
 
   for (let i = 0; i < items.length; i++) {
     if (items[i].itemId === item.itemId) {
@@ -100,46 +101,65 @@ function extractNumber(id) {
   return null;
 }
 
-function refresh() {
-  $("#ItemManage .itemId").val(generateId());
+async function refresh() {
+  generateId();
   $("#ItemManage .itemName").val("");
   $("#ItemManage .itemQty").val("");
   $("#ItemManage .itemPrice").val("");
   loadTable();
+  let count = await getAllItems().length;
+  $(".counts .items h2").text(count);
 }
 
-function generateId() {
-  let items = getAllItems();
+// function generateId() {
+//   let items = getAllItems();
 
+//   if (!items || items.length == 0) {
+//     return "I01";
+//   } else {
+//     let lastItem = items[items.length - 1];
+//     console.log(lastItem);
+//     let number = extractNumber(lastItem.itemId);
+//     console.log(number);
+//     number++;
+//     return "I0" + number;
+//   }
+// }
+async function generateId() {
+  let items = await getAllItems();
+  console.log(items, "+++++++++++Mendis");
   if (!items || items.length == 0) {
-    return "I01";
+    $("#ItemManage .itemId").val("I01");
   } else {
     let lastItem = items[items.length - 1];
     console.log(lastItem);
-    let number = extractNumber(lastItem.itemId);
+    console.log(lastItem);
+    let number = extractNumber(lastItem.id);
     console.log(number);
     number++;
-    return "I0" + number;
+    let id = "I0" + number;
+    $("#ItemManage .itemId").val(id);
   }
 }
 
-function loadTable() {
-  let items = getAllItems();
+async function loadTable() {
+  
+  let items = await getAllItems();
   $("#ItemManage .tableRow").empty();
   for (let i = 0; i < items.length; i++) {
     $("#ItemManage .tableRow").append(
       "<tr> " +
         "<td>" +
-        items[i].itemId +
+        items[i].id +
         "</td>" +
         "<td>" +
-        items[i].itemName +
+        items[i].name +
         "</td>" +
         "<td>" +
-        items[i].itemQty +
+        items[i].qty +
         "</td>" +
         "<td>" +
-        items[i].itemPrice +
+        items[i].price +
         "</td>" +
         "</tr>"
     );
@@ -158,25 +178,23 @@ $("#ItemManage .tableRow").on("click", "tr", function () {
   $("#ItemManage .itemPrice").val(price);
 });
 
-$("#ItemManage .deleteBtn").click(function () {
+$("#ItemManage .deleteBtn").click( async function () {
   let id = $("#ItemManage .itemId").val();
-  let items = getAllItems();
-  let item = items.findIndex((item) => item.itemId === id);
-  if (item >= 0) {
-    deleteItem(item);
-    refresh();
-  } else {
-    $("#ItemManage .invalidCode").text("Item Id does not exist");
-  }
+ 
+  //let item = items.findIndex((item) => item.itemId === id);
+   deleteItem(id);
+   refresh();
+
+  
 });
 
-$("#ItemManage .updateBtn").click(function () {
+$("#ItemManage .updateBtn").click( async function () {
   alert("Update");
   let item = {
-    itemId: "I00",
-    itemName: $("#ItemManage .itemName").val(),
-    itemQty: $("#ItemManage .itemQty").val(),
-    itemPrice: $("#ItemManage .itemPrice").val(),
+    id:  $("#ItemManage .itemId").val(),
+    name: $("#ItemManage .itemName").val(),
+    qty: $("#ItemManage .itemQty").val(),
+    price: $("#ItemManage .itemPrice").val(),
   };
 
   let valid = validate(item);
@@ -184,7 +202,7 @@ $("#ItemManage .updateBtn").click(function () {
   item.itemId = $("#ItemManage .itemId").val();
 
   if (valid) {
-    let items = getAllItems();
+    let items = await getAllItems();
     let index = items.findIndex((i) => i.itemId === item.itemId);
     updateItem(index, item);
     refresh();

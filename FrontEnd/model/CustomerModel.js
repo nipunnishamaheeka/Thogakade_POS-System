@@ -95,15 +95,12 @@ export async function updateCustomer(index, customer) {
 
 export async function deleteCustomer(custId) {
   try {
-    const response = await fetch(
-      `http://localhost:8080/app/customer/${custId}`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await fetch(`http://localhost:8080/app/customer?id=`+custId, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
